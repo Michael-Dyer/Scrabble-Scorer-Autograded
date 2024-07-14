@@ -15,23 +15,16 @@ const oldPointStructure = {
 function transform(struct) {
    let newStruct =  new Object();
 
-
    for (x in struct){
       
       for (y in struct[x]){
-         //console.log(struct[x][y]);
-
-
          //stuct[x][y] is the letter 
          //x is the value
          let lowerLetter = struct[x][y].toLowerCase();
          let numb = parseInt(x);
          //populate new object
          newStruct[lowerLetter] = numb;
-
       }
-
-
    }
 
    return newStruct;
@@ -49,7 +42,6 @@ let oldScrabbleScorer = function(word) {
 	  for (const pointValue in oldPointStructure) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
-			//letterPoints += `Points for '${word[i]}': ${pointValue}\n`
          points = points + parseInt(pointValue);
 		 }
  
@@ -115,7 +107,7 @@ let vowelBonusScorer = function(word){
 // don't change the names or your program won't work as expected. //
 
 function initialPrompt() {
-   let word = input.question("Let's play some scrabble! Enter a word:");
+   let word = input.question("Let's play some scrabble! Enter a word: ");
    return word;
 };
 
@@ -164,9 +156,9 @@ function scorerPrompt() {
    2 - Scrabble: Uses scrabble point system
    Enter 0, 1, or 2: `);
    option = parseInt(option);
+   console.log("");
    
    if (option < 0 || option > 2) {
-      console.log("please enter a valid response. ");
       return -1;
    }
 
@@ -183,14 +175,22 @@ function runProgram() {
 
    let word = initialPrompt();
 
+   //regex to check if string only contains characters that are vailid for the scrabble scorer (letters)
+   if (/[^a-zA-Z]/.test(word)){
+      console.log("make sure the word you enter only contains letters!")
+      return -1;
+   }
+
+
    let scoreMethod = scorerPrompt();
 
    if (scoreMethod == -1) {
-      console.log("error");
+      console.log("please enter a valid response.\nenter 0, 1 or 2 please! ");
       return -1;
    }
    
-   console.log("the score is ", scoreMethod.scorerFunction(word));
+   console.log("You've chosen",scoreMethod.name)
+   console.log("the score is", scoreMethod.scorerFunction(word));
 }
 
 // Don't write any code below this line //
