@@ -27,6 +27,7 @@ function transform(struct) {
       }
    }
 
+   newStruct[" "] = 0;
    return newStruct;
 
 };
@@ -170,17 +171,16 @@ function scorerPrompt() {
 
 
 function runProgram() {
+   //flag will make sure that the user enters correct reponsees
    
-
-
    let word = initialPrompt();
 
    //regex to check if string only contains characters that are vailid for the scrabble scorer (letters)
-   if (/[^a-zA-Z]/.test(word)){
+   if (/[^a-zA-Z| ]/.test(word)){
       console.log("make sure the word you enter only contains letters!")
       return -1;
    }
-
+   
 
    let scoreMethod = scorerPrompt();
 
@@ -189,8 +189,9 @@ function runProgram() {
       return -1;
    }
    
+   
    console.log("You've chosen",scoreMethod.name)
-   console.log("the score is", scoreMethod.scorerFunction(word));
+   console.log("the score is", scoreMethod.scorerFunction(word),"for",word);
 }
 
 // Don't write any code below this line //
