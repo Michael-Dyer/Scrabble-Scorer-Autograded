@@ -26,8 +26,6 @@ function transform(struct) {
          newStruct[lowerLetter] = numb;
       }
    }
-
-   newStruct[" "] = 0;
    return newStruct;
 
 };
@@ -40,7 +38,7 @@ let oldScrabbleScorer = function(word) {
  
 	for (let i = 0; i < word.length; i++) {
  
-	  for (const pointValue in oldPointStructure) {
+	  for (pointValue in oldPointStructure) {
  
 		 if (oldPointStructure[pointValue].includes(word[i])) {
          points = points + parseInt(pointValue);
@@ -54,6 +52,9 @@ let oldScrabbleScorer = function(word) {
  }
  let newPointStructure = transform(oldPointStructure);
 
+ //adding this to pass the bonus test
+ newPointStructure[' '] = 0;
+
 
  let scrabbleScorer = function(word){
    word = word.toLowerCase();
@@ -65,10 +66,7 @@ let oldScrabbleScorer = function(word) {
       //the value of the letter is simply the points
       points += newPointStructure[word[i]];
 
-
-   }
-
-   
+   }  
 
    return points;
  }
@@ -169,15 +167,13 @@ function scorerPrompt() {
 }
 
 
-
-function runProgram() {
-   //flag will make sure that the user enters correct reponsees
-   
+//adding this function in to return -1 as an error if the user enters wrong input
+function checkErrors(){
    let word = initialPrompt();
 
-   //regex to check if string only contains characters that are vailid for the scrabble scorer (letters)
+   //regex to check if string only contains characters that are vailid for the scrabble scorer (letters or spaces)
    if (/[^a-zA-Z| ]/.test(word)){
-      console.log("make sure the word you enter only contains letters!")
+      console.log("Make sure the word you enter only contains letters!\n")
       return -1;
    }
    
@@ -185,13 +181,19 @@ function runProgram() {
    let scoreMethod = scorerPrompt();
 
    if (scoreMethod == -1) {
-      console.log("please enter a valid response.\nenter 0, 1 or 2 please! ");
+      console.log("Please enter a valid response.\nenter 0, 1 or 2 please!\n ");
       return -1;
    }
    
    
    console.log("You've chosen",scoreMethod.name)
-   console.log("the score is", scoreMethod.scorerFunction(word),"for",word);
+   console.log(`The score is ${scoreMethod.scorerFunction(word)} for "${word}"`);
+}
+
+function runProgram() {
+   //loop through until user enters vaild input
+   while(checkErrors() == -1);   
+   
 }
 
 // Don't write any code below this line //
